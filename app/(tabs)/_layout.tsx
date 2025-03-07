@@ -1,45 +1,86 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-import { Platform } from 'react-native';
+import { View, Text } from "react-native";
+import React from "react";
+import { Tabs } from "expo-router";
+import className from "twrnc";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import Feather from "@expo/vector-icons/Feather";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
+const Layout = () => {
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
+    <View style={className`flex-1 p-5 bg-black`}>
+      <Tabs
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: "black",
+            borderWidth: 0,
           },
-          default: {},
-        }),
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          headerTintColor: "#fff",
+          headerTitleStyle: {
+            fontSize: 40,
+            color: "#fff",
+          },
+          tabBarStyle: {
+            backgroundColor: "rgba(55,55,255,0.5)",
+            height: 70,
+            padding: 10,
+            margin: 10,
+            borderWidth: 0,
+            borderColor: "transparent",
+            borderRadius: 20,
+          },
+          tabBarLabelStyle: {
+            color: "#fff",
+          },
+          tabBarInactiveTintColor: "#fff",
         }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
-        }}
-      />
-    </Tabs>
+      >
+        <Tabs.Screen
+          name="favourites"
+          options={{
+            tabBarIcon: () => (
+              <AntDesign name="heart" size={24} color="white" />
+            ),
+            headerTitle: "Favourites",
+            tabBarLabel: "Favourites",
+          }}
+        />
+        <Tabs.Screen
+          name="playlists"
+          options={{
+            tabBarIcon: () => (
+              <MaterialIcons name="playlist-add" size={24} color="white" />
+            ),
+            headerTitle: "Playlists",
+            tabBarLabel: "Playlists",
+          }}
+        />
+        <Tabs.Screen
+          name="index"
+          options={{
+            tabBarIcon: () => <Feather name="music" size={24} color="white" />,
+            headerTitle: "Songs",
+            tabBarLabel: "Songs",
+          }}
+        />
+        <Tabs.Screen
+          name="artists"
+          options={{
+            tabBarIcon: () => (
+              <MaterialCommunityIcons
+                name="human-child"
+                size={24}
+                color="white"
+              />
+            ),
+            headerTitle: "Artists",
+            tabBarLabel: "Artists",
+          }}
+        />
+      </Tabs>
+    </View>
   );
-}
+};
+
+export default Layout;
